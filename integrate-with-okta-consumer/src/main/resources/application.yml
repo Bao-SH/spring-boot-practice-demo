@@ -1,0 +1,11 @@
+okta:
+  oauth2:
+    # Replace with the domain of your Auth0 tenant.
+    issuer: https://dev-0hkzrvxf7v20p0s8.us.auth0.com/
+    # Replace with the API Identifier for your Auth0 API.
+    audience: http://localhost:8080/secured
+
+security:
+  endpoints:
+    - /secured
+    - /secured-test
