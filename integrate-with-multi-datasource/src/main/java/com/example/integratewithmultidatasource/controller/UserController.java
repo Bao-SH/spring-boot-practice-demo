@@ -4,8 +4,6 @@ import com.example.integratewithmultidatasource.dto.UserDto;
 import com.example.integratewithmultidatasource.mapper.UserMapper;
 import com.example.integratewithmultidatasource.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
-import org.springframework.boot.autoconfigure.orm.jpa.HibernateProperties;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,8 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     private final UserRepository userRepository;
-
-    private final HibernateProperties hibernateProperties;
 
     @PostMapping("/user")
     public Integer create(@RequestBody UserDto userDto) {

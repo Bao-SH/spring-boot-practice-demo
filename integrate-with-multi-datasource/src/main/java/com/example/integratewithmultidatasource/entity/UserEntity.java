@@ -3,7 +3,7 @@ package com.example.integratewithmultidatasource.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "user_entity")
+@Table(name = "user")
 public class UserEntity {
 
     @Id
