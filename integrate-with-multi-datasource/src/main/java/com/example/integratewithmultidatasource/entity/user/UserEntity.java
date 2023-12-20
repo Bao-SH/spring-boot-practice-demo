@@ -1,4 +1,4 @@
-package com.example.integratewithmultidatasource.entity;
+package com.example.integratewithmultidatasource.entity.user;
 
 import jakarta.persistence.*;
 

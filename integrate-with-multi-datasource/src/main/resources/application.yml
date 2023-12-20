@@ -10,18 +10,16 @@ snowflake:
 spring:
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     show-sql: true
-    database-platform: org.hibernate.dialect.MySQL8Dialect
   datasource:
     mysql:
       username: springuser
       password: password
       driver-class-name: com.mysql.cj.jdbc.Driver
       url: jdbc:mysql://localhost:3306/db_example
+      dialect: org.hibernate.dialect.MySQLDialect
     snowflake:
       url: jdbc:snowflake://${snowflake.account_identifier}.snowflakecomputing.com/?user=${snowflake.username}&password=${snowflake.password}&warehouse=${snowflake.warehouse}&db=${snowflake.database.name}&schema=${snowflake.schema}
       driver-class-name: net.snowflake.client.jdbc.SnowflakeDriver
-logging:
-  level:
-    root: debug
+      dialect: com.example.integratewithmultidatasource.config.EmptyDialect

@@ -1,15 +1,17 @@
 package com.example.integratewithmultidatasource.mapper;
 
+import com.example.integratewithmultidatasource.dto.ProductDto;
 import com.example.integratewithmultidatasource.dto.UserDto;
+import com.example.integratewithmultidatasource.entity.product.ProductEntity;
 import com.example.integratewithmultidatasource.entity.user.UserEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 @Mapper()
-public interface UserMapper {
-    UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
+public interface ProductMapper {
+    ProductMapper INSTANCE = Mappers.getMapper(ProductMapper.class);
 
     @Mapping(target = "id", ignore = true)
-    UserEntity toUserEntity(UserDto userDto);
+    ProductEntity toProductEntity(ProductDto productDto);
 }

@@ -2,7 +2,6 @@ package com.example.integratewithmultidatasource.config;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -21,31 +20,35 @@ import java.util.Objects;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(
-    basePackages = "com.example.integratewithmultidatasource.repository.user",
-    entityManagerFactoryRef = "mysqlEntityManagerFactory",
-    transactionManagerRef = "mysqlTransactionManager"
+    basePackages = "com.example.integratewithmultidatasource.repository.snowflake",
+    entityManagerFactoryRef = "snowflakeEntityManagerFactory",
+    transactionManagerRef = "snowflakeTransactionManager"
 )
-public class MySQLJpaConfiguration {
+public class SnowflakeJpaConfiguration {
 
     @Value("${spring.jpa.hibernate.ddl-auto}")
     private String hibernateAuto;
 
+    @Value("${spring.datasource.snowflake.dialect}")
+    private String hibernateDialect;
+
+
     @Bean
-    @Primary
-    public LocalContainerEntityManagerFactoryBean mysqlEntityManagerFactory(
-        @Qualifier("mysqlDataSource") DataSource dataSource) {
+    public LocalContainerEntityManagerFactoryBean snowflakeEntityManagerFactory(
+        @Qualifier("snowflakeDataSource") DataSource dataSource) {
         var localContainerEntityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
         localContainerEntityManagerFactoryBean.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
         localContainerEntityManagerFactoryBean.setDataSource(dataSource);
-        localContainerEntityManagerFactoryBean.setPackagesToScan("com.example.integratewithmultidatasource.entity.user");
-        localContainerEntityManagerFactoryBean.setJpaPropertyMap(Map.of("hibernate.hbm2ddl.auto", hibernateAuto));
+        localContainerEntityManagerFactoryBean.setPackagesToScan("com.example.integratewithmultidatasource.entity.product");
+        localContainerEntityManagerFactoryBean.setJpaPropertyMap(
+            Map.of("hibernate.hbm2ddl.auto", hibernateAuto, "hibernate.dialect", hibernateDialect));
         return localContainerEntityManagerFactoryBean;
     }
 
     @Bean
     @Primary
-    public PlatformTransactionManager mysqlTransactionManager(
-        @Qualifier("mysqlEntityManagerFactory") LocalContainerEntityManagerFactoryBean mysqlEntityManagerFactory) {
-        return new JpaTransactionManager(Objects.requireNonNull(mysqlEntityManagerFactory.getObject()));
+    public PlatformTransactionManager snowflakeTransactionManager(
+        @Qualifier("snowflakeEntityManagerFactory") LocalContainerEntityManagerFactoryBean snowflakeEntityManagerFactory) {
+        return new JpaTransactionManager(Objects.requireNonNull(snowflakeEntityManagerFactory.getObject()));
     }
 }
