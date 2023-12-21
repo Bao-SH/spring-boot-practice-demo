@@ -2,7 +2,7 @@ package com.example.integratewithmultidatasource.controller;
 
 import com.example.integratewithmultidatasource.dto.UserDto;
 import com.example.integratewithmultidatasource.mapper.UserMapper;
-import com.example.integratewithmultidatasource.repository.user.UserRepository;
+import com.example.integratewithmultidatasource.repository.mysql.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

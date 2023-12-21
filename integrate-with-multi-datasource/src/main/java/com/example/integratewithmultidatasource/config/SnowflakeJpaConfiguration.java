@@ -1,5 +1,6 @@
 package com.example.integratewithmultidatasource.config;
 
+import com.example.integratewithmultidatasource.repository.snowflake.SnowflakeRepository;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -20,7 +21,8 @@ import java.util.Objects;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(
-    basePackages = "com.example.integratewithmultidatasource.repository.snowflake",
+//    basePackages = "com.example.integratewithmultidatasource.repository.snowflake",
+    basePackageClasses = SnowflakeRepository.class,
     entityManagerFactoryRef = "snowflakeEntityManagerFactory",
     transactionManagerRef = "snowflakeTransactionManager"
 )

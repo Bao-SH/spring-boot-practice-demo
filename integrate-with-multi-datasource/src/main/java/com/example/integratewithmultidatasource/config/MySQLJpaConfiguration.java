@@ -1,8 +1,8 @@
 package com.example.integratewithmultidatasource.config;
 
+import com.example.integratewithmultidatasource.repository.mysql.UserRepository;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -21,7 +21,7 @@ import java.util.Objects;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(
-    basePackages = "com.example.integratewithmultidatasource.repository.user",
+    basePackages = "com.example.integratewithmultidatasource.repository.mysql",
     entityManagerFactoryRef = "mysqlEntityManagerFactory",
     transactionManagerRef = "mysqlTransactionManager"
 )
@@ -37,7 +37,8 @@ public class MySQLJpaConfiguration {
         var localContainerEntityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
         localContainerEntityManagerFactoryBean.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
         localContainerEntityManagerFactoryBean.setDataSource(dataSource);
-        localContainerEntityManagerFactoryBean.setPackagesToScan("com.example.integratewithmultidatasource.entity.user");
+        localContainerEntityManagerFactoryBean.setPackagesToScan("com.example.integratewithmultidatasource.entity.user",
+            "com.example.integratewithmultidatasource.entity.order");
         localContainerEntityManagerFactoryBean.setJpaPropertyMap(Map.of("hibernate.hbm2ddl.auto", hibernateAuto));
         return localContainerEntityManagerFactoryBean;
     }

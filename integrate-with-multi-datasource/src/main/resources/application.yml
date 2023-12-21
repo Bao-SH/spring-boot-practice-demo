@@ -1,7 +1,7 @@
 snowflake:
-  account_identifier: ---
-  username: ---
-  password: ---
+  account_identifier: ""
+  username: ""
+  password: ""
   warehouse: ""
   database:
     name: ""
