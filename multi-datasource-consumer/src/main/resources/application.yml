@@ -1,0 +1,38 @@
+multi-datasource:
+  repositories:
+    mysqlPackage: "com.example.multidatasourceprovider.repository.mysql"
+    snowflakePackage: "com.example.multidatasourceprovider.repository.snowflake"
+  entities:
+    snowflakePackage:
+      - "com.example.multidatasourceprovider.entity.product"
+    mysqlPackage:
+      - "com.example.multidatasourceprovider.entity.user"
+      - "com.example.multidatasourceprovider.entity.order"
+
+
+snowflake:
+  account_identifier: ""
+  username: ""
+  password: ""
+  warehouse: ""
+  database:
+    name: ""
+  schema: ""
+
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  datasource:
+    mysql:
+      username: springuser
+      password: password
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/db_example
+      dialect: org.hibernate.dialect.MySQLDialect
+    snowflake:
+      url: jdbc:snowflake://${snowflake.account_identifier}.snowflakecomputing.com/?user=${snowflake.username}&password=${snowflake.password}&warehouse=${snowflake.warehouse}&db=${snowflake.database.name}&schema=${snowflake.schema}
+      driver-class-name: net.snowflake.client.jdbc.SnowflakeDriver
+      dialect: com.example.multidatasourceprovider.config.EmptyDialect
+

@@ -1,1 +1,4 @@
-com.example.multidatasourceprovider.config.*
+com.example.multidatasourceprovider.config.MySQLDatasourceConfiguration
+com.example.multidatasourceprovider.config.MySQLJpaConfiguration
+com.example.multidatasourceprovider.config.SnowflakeDatasourceConfiguration
+com.example.multidatasourceprovider.config.SnowflakeJpaConfiguration
