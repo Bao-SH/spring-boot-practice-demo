@@ -1,13 +1,13 @@
 multi-datasource:
   repositories:
-    mysqlPackage: "com.example.multidatasourceprovider.repository.mysql"
-    snowflakePackage: "com.example.multidatasourceprovider.repository.snowflake"
+    mysqlPackage: "com.example.multidatasourceconsumer.repository.mysql"
+    snowflakePackage: "com.example.multidatasourceconsumer.repository.snowflake"
   entities:
     snowflakePackage:
-      - "com.example.multidatasourceprovider.entity.product"
+      - "com.example.multidatasourceconsumer.entity.product"
     mysqlPackage:
-      - "com.example.multidatasourceprovider.entity.user"
-      - "com.example.multidatasourceprovider.entity.order"
+      - "com.example.multidatasourceconsumer.entity.user"
+      - "com.example.multidatasourceconsumer.entity.order"
 
 
 snowflake:
