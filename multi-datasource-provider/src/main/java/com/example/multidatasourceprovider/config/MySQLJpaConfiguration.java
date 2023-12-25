@@ -7,6 +7,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
@@ -22,7 +23,7 @@ import java.util.Objects;
 @EnableConfigurationProperties({EntityBasePackagesConfigurationProperties.class})
 @EnableTransactionManagement
 @AutoConfigurationPackage
-@CustomEnableJpaRepositories(
+@EnableJpaRepositories(
     basePackages = "${multi-datasource.repositories.mysqlPackage}",
     entityManagerFactoryRef = "mysqlEntityManagerFactory",
     transactionManagerRef = "mysqlTransactionManager"
