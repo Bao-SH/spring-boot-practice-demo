@@ -1,0 +1,13 @@
+spring:
+  security:
+    user:
+      userCredentials:
+        - username: Bob
+          password: password
+          userRoles:
+            - USER
+            - ADMIN
+        - username: Rainbow
+          password: password
+          userRoles:
+            - USER

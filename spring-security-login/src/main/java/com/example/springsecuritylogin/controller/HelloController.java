@@ -16,4 +16,10 @@ public class HelloController {
     public String adminGreet(Principal principal) {
         return "Hello admin: " + principal.getName();
     }
+
+    @GetMapping("/config")
+    public String config(Principal principal) {
+        return "Config page with user: " + principal.getName();
+    }
+
 }
