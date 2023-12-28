@@ -18,8 +18,19 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
-@EnableConfigurationProperties(UserDetailsConfig.class)
+@EnableConfigurationProperties({UserDetailsConfig.class})
 public class SecurityConfig {
+
+    //the same type of provider can only use one kind: for example,
+    // for UsernamePasswordAuthentication, you can use customAuthenticationProvider or default one.
+    // So if you'd like to use custom one, please comment out the code below and also the CustomAuthenticationProvider.class.
+
+//    private final CustomAuthenticationProvider customAuthenticationProvider;
+
+//    public SecurityConfig(CustomAuthenticationProvider customAuthenticationProvider) {
+//        this.customAuthenticationProvider = customAuthenticationProvider;
+//    }
+
 
     @Bean
     public UserDetailsService userDetailsService(UserDetailsConfig userDetailsConfig) {
@@ -60,4 +71,13 @@ public class SecurityConfig {
             .authenticated()).httpBasic(Customizer.withDefaults());
         return http.build();
     }
+//
+//    @Bean
+//    @Order(3)
+//    public SecurityFilterChain securityFilterChain3(HttpSecurity http) throws Exception {
+//        http.authorizeHttpRequests(authorize -> authorize.requestMatchers("/external")
+//            .authenticated()).httpBasic(Customizer.withDefaults())
+//            .authenticationProvider(customAuthenticationProvider);
+//        return http.build();
+//    }
 }

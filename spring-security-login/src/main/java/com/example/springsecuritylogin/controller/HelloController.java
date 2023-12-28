@@ -22,4 +22,8 @@ public class HelloController {
         return "Config page with user: " + principal.getName();
     }
 
+    @GetMapping("/external")
+    public String external(Principal principal) {
+        return "External page with custom user: " + principal.getName();
+    }
 }
