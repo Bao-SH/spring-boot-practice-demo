@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="false">
+  <variable resource="application.properties" />
+  <springProfile name="local">
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <appender class="ch.qos.logback.core.ConsoleAppender" name="STDOUT">
+      <encoder>
+        <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+        <charset>utf8</charset>
+      </encoder>
+    </appender>
+    <root level="INFO">
+      <appender-ref ref="STDOUT"/>
+    </root>
+  </springProfile>
+
+  <springProfile name="dev | qa | uat | prod">
+    <variable resource="application.properties" />
+    <appender class="ch.qos.logback.core.ConsoleAppender" name="STDOUT">
+      <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+        <providers>
+          <pattern>
+            <pattern>
+              {
+              "timestamp": "%date{\"yyyy-MM-dd'T'HH:mm:ss,SSSZ\"}",
+              "project": "${PROJECT_NAME}",
+              "log_level": "%level",
+              "thread": "%thread",
+              "class_name": "%class",
+              "line_number": "%line",
+              "message": "%message",
+              "stack_trace": "%exception{5}",
+              "status": "%level"
+              }
+            </pattern>
+          </pattern>
+          <timestamp>
+            <timeZone>UTC</timeZone>
+          </timestamp>
+        </providers>
+      </encoder>
+    </appender>
+    <root level="INFO">
+      <appender-ref ref="STDOUT"/>
+    </root>
+  </springProfile>
+</configuration>
