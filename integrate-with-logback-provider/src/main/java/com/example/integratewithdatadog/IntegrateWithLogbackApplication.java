@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class IntegrateWithDatadogApplication {
+public class IntegrateWithLogbackApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(IntegrateWithDatadogApplication.class, args);
+        SpringApplication.run(IntegrateWithLogbackApplication.class, args);
     }
 
 }
