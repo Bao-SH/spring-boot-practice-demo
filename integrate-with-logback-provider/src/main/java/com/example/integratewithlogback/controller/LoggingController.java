@@ -13,7 +13,7 @@ import java.util.Map;
 public class LoggingController {
 
 
-    @GetMapping("/")
+    @GetMapping("/json")
     public String index() {
         Map<String, String> user = new HashMap<>();
         user.put("user_id", "87656");
@@ -23,9 +23,16 @@ public class LoggingController {
         user.put("Country", "U.S.");
         user.put("ip_address", "192.168.1.1");
         user.put("email_id", "spring@baeldung.com");
+        user.put("msg", "test.com");
         JSONObject userDetails = new JSONObject(user);
 
         log.info("User JSON: {}", userDetails);
+        return "Succeed";
+    }
+
+    @GetMapping("/info")
+    public String info() {
+        log.info("message is: try to mask this.");
         return "Succeed";
     }
 }
