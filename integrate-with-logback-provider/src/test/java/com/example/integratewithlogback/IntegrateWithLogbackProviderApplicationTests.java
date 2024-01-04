@@ -1,10 +1,10 @@
-package com.example.integratewithdatadog;
+package com.example.integratewithlogback;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class IntegrateWithLogbackApplicationTests {
+class IntegrateWithLogbackProviderApplicationTests {
 
     @Test
     void contextLoads() {

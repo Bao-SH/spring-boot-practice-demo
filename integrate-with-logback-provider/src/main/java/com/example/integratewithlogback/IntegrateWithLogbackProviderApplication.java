@@ -1,13 +1,13 @@
-package com.example.integratewithdatadog;
+package com.example.integratewithlogback;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class IntegrateWithLogbackApplication {
+public class IntegrateWithLogbackProviderApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(IntegrateWithLogbackApplication.class, args);
+        SpringApplication.run(IntegrateWithLogbackProviderApplication.class, args);
     }
 
 }
