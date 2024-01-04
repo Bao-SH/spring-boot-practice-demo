@@ -19,7 +19,7 @@
     <appender class="ch.qos.logback.core.ConsoleAppender" name="STDOUT">
       <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
         <providers>
-          <pattern>
+          <pattern>]
             <pattern>
               {
               "timestamp": "%date{\"yyyy-MM-dd'T'HH:mm:ss,SSSZ\"}",
@@ -28,8 +28,8 @@
               "thread": "%thread",
               "class_name": "%class",
               "line_number": "%line",
-              "message": "%message",
-              "stack_trace": "%exception{5}",
+              "message": "%replace(%message){'\"(email_id|SSN)\":[^,]*,?','\"$1\":\"****\"'}",
+              "stack_trace": "%exception{5}x",
               "status": "%level"
               }
             </pattern>

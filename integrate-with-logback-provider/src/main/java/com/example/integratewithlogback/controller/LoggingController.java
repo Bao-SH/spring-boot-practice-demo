@@ -1,8 +1,12 @@
 package com.example.integratewithlogback.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONObject;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @Slf4j
@@ -11,11 +15,17 @@ public class LoggingController {
 
     @GetMapping("/")
     public String index() {
-        log.trace("A TRACE Message");
-        log.debug("A DEBUG Message");
-        log.info("A INFO Message");
-        log.warn("A WARN Message");
-        log.error("A ERROR Message");
+        Map<String, String> user = new HashMap<>();
+        user.put("user_id", "87656");
+        user.put("SSN", "786445563");
+        user.put("address", "22 Street");
+        user.put("city", "Chicago");
+        user.put("Country", "U.S.");
+        user.put("ip_address", "192.168.1.1");
+        user.put("email_id", "spring@baeldung.com");
+        JSONObject userDetails = new JSONObject(user);
+
+        log.info("User JSON: {}", userDetails);
         return "Succeed";
     }
 }
