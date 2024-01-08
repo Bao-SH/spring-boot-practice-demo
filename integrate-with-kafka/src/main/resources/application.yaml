@@ -1,3 +1,11 @@
+management:
+  endpoint:
+    info:
+      enable: true
+  endpoints:
+    web:
+      exposure:
+        include: health,metrics,prometheus,loggers
 
 spring:
   kafka:
