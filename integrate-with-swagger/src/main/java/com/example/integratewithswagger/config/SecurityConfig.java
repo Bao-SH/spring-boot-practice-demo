@@ -20,16 +20,16 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private static final String[] AUTH_WHITELIST = {"/hello"};
+    private static final String[] AUTH_WHITELIST = {"/hello", "/secured", "/swagger-ui/**", "/api/**"};
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.authorizeHttpRequests(authorize -> authorize.requestMatchers(AUTH_WHITELIST)
                 .permitAll()
                 .requestMatchers(RegexRequestMatcher.regexMatcher("/[0-9]+"))
-                .permitAll()
-                .anyRequest()
-                .authenticated())
+            .permitAll()
+            .anyRequest()
+            .authenticated())
             .httpBasic(Customizer.withDefaults())
             .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
             .build();
