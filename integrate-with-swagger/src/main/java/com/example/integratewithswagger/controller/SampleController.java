@@ -7,18 +7,19 @@ import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequiredArgsConstructor
 public class SampleController {
 
-    @GetMapping("/{id}")
-    public String findById(@PathVariable long id) {
-        return "succeed by " + id;
-    }
+    private final UserDetailsService userDetailsService;
+    private final JwtEncoder encoder;
+
 
     @GetMapping("/hello")
     @Operation(method = "get method", summary = "get greetings", description = "get descriptions")
@@ -35,20 +36,16 @@ public class SampleController {
     }
 
     @GetMapping("/secured")
+//    @SecurityRequirements
     public String secured() {
         return "this is a secured endpoint";
     }
 
     @GetMapping("/basic-auth")
-    @SecurityRequirement(name = "basicAuth")
+//    @SecurityRequirement(name = "basic_auth")
     public String basicAuth() {
         return "this is basic-auth";
     }
 
-//    @GetMapping("/oauth2-auth")
-//    @SecurityRequirement(name = "oauth2")
-//    public String oauth2Auth() {
-//        return "this is oauth2-auth";
-//    }
 }
 

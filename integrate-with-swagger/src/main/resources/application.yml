@@ -1,0 +1,13 @@
+springdoc:
+  custom:
+    authentication:
+      enabled: true
+      methods:
+#      - BASIC
+      - BEARER
+jwt:
+  private:
+    key: classpath:app.key
+  public:
+    key: classpath:app.pub
+
