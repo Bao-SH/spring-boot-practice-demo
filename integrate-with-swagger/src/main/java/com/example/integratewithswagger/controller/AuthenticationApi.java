@@ -62,7 +62,6 @@ public class AuthenticationApi {
     private String generateToken(UserDetails userDetails) {
         Instant now = Instant.now();
         long expiry = 36000L;
-        // @formatter:off
         String scope = userDetails.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(" "));
@@ -73,8 +72,6 @@ public class AuthenticationApi {
                 .subject(userDetails.getUsername())
                 .claim("scope", scope)
                 .build();
-        // @formatter:on
         return this.encoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
     }
-
 }

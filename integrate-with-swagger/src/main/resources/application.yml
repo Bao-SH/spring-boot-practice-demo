@@ -5,6 +5,7 @@ springdoc:
       methods:
       - BASIC
       - BEARER
+#      - OAUTH2
 jwt:
   private:
     key: classpath:app.key

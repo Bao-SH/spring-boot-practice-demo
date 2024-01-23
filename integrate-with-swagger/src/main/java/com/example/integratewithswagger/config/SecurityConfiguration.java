@@ -7,9 +7,10 @@ import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -48,27 +49,20 @@ public class SecurityConfiguration {
      */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        //@formatter:off
         return http
-                .authorizeHttpRequests(authorizeRequests -> authorizeRequests
-                    .requestMatchers("/api/auth/**", "/swagger-ui-custom.html" ,"/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**", "/webjars/**",
-                                "/swagger-ui/index.html","/api-docs/**")
-                        .permitAll()
-                        .anyRequest()
-                        .authenticated())
-                .cors().disable()
-                .csrf().disable()
-                .formLogin().disable()
-                .httpBasic().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
-                .exceptionHandling(exceptions -> exceptions
-                        .authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
-                        .accessDeniedHandler(new BearerTokenAccessDeniedHandler())
-                        .and())
-                .build();
-        //@formatter:on
+            .authorizeHttpRequests(authorizeRequests -> authorizeRequests
+                .requestMatchers("/api/auth/**", "/swagger-ui-custom.html" ,"/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**", "/webjars/**",
+                    "/swagger-ui/index.html","/api-docs/**")
+                .permitAll()
+                .anyRequest()
+                .authenticated())
+            .csrf(AbstractHttpConfigurer::disable)
+            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
+            .exceptionHandling(exceptions -> exceptions
+                .authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
+                .accessDeniedHandler(new BearerTokenAccessDeniedHandler()))
+            .build();
     }
 
     /**
@@ -79,7 +73,6 @@ public class SecurityConfiguration {
      */
     @Bean
     UserDetailsService allUsers() {
-        // @formatter:off
         InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
         manager
                 .createUser(User.builder()
@@ -96,7 +89,6 @@ public class SecurityConfiguration {
                         .authorities("USER")
                         .roles("USER").build());
         return manager;
-        // @formatter:on
     }
 
     /**
