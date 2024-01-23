@@ -7,6 +7,7 @@ import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -14,6 +15,8 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
@@ -40,6 +43,21 @@ public class SecurityConfiguration {
     @Value("${jwt.private.key}")
     RSAPrivateKey privateKey;
 
+    @Order(1)
+    @Bean
+    public SecurityFilterChain config(HttpSecurity http) throws Exception {
+        return http.securityMatcher("/api/auth/**", "/swagger-ui", "/swagger-ui/**", "/v3/api-docs/**","/api-docs/**")
+            .authorizeHttpRequests(
+                authorize -> authorize
+                    .requestMatchers("/swagger-ui", "/swagger-ui/**", "/v3/api-docs/**","/api-docs/**")
+                    .permitAll()
+                    .anyRequest()
+                    .authenticated()
+            ).csrf(AbstractHttpConfigurer::disable)
+            .httpBasic(Customizer.withDefaults())
+            .build();
+    }
+
     /**
      * This bean is used to configure the JWT token. Configure the URLs that should not be protected by the JWT token.
      *
@@ -48,14 +66,11 @@ public class SecurityConfiguration {
      * @throws Exception if an error occurs
      */
     @Bean
+    @Order(2)
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
-            .authorizeHttpRequests(authorizeRequests -> authorizeRequests
-                .requestMatchers("/api/auth/**", "/swagger-ui-custom.html" ,"/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**", "/webjars/**",
-                    "/swagger-ui/index.html","/api-docs/**")
-                .permitAll()
-                .anyRequest()
-                .authenticated())
+            .securityMatcher("/api/user", "/api/user/**")
+            .authorizeHttpRequests(authorizeRequests -> authorizeRequests.anyRequest().authenticated())
             .csrf(AbstractHttpConfigurer::disable)
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
@@ -76,16 +91,14 @@ public class SecurityConfiguration {
         InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
         manager
                 .createUser(User.builder()
-                        .passwordEncoder(password -> password)
                         .username("john")
-                        .password("password")
+                        .password(passwordEncoder().encode("password"))
                         .authorities("USER")
                         .roles("USER").build());
         manager
                 .createUser(User.builder()
-                        .passwordEncoder(password -> password)
                         .username("jane")
-                        .password("password")
+                        .password(passwordEncoder().encode("password"))
                         .authorities("USER")
                         .roles("USER").build());
         return manager;
@@ -110,6 +123,11 @@ public class SecurityConfiguration {
     JwtEncoder jwtEncoder() {
         JWK jwk = new RSAKey.Builder(this.publicKey).privateKey(this.privateKey).build();
         return new NimbusJwtEncoder(new ImmutableJWKSet<>(new JWKSet(jwk)));
+    }
+
+    @Bean
+    PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }
 
