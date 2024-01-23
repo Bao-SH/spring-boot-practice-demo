@@ -38,7 +38,7 @@ public class AuthenticationApi {
 //    @io.swagger.v3.oas.annotations.parameters.RequestBody(content = @io.swagger.v3.oas.annotations.media.Content(mediaType = "application/json", examples = @io.swagger.v3.oas.annotations.media.ExampleObject(value = "{\n" + "  \"username\": \"jane\",\n"
 //      + "  \"password\": \"password\"\n" + "}", summary = "User Authentication Example")))
     @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
-    @SecurityRequirement(name = "basicAuth")
+//    @SecurityRequirement(name = "basicAuth")
     public ResponseEntity<String> login(Authentication authentication) {
         UserDetails userDetails = userDetailsService.loadUserByUsername(authentication.getName());
         String token = generateToken(userDetails);
