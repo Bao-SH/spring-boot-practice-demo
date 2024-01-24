@@ -7,7 +7,7 @@ import java.util.List;
 
 @ConfigurationProperties(prefix = "springdoc.custom.authentication")
 @Data
-public class ConfigProperties {
+public class OpenAPIConfigProperties {
     private boolean enabled;
     private List<AuthenticationMethods> methods;
 

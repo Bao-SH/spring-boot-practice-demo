@@ -3,8 +3,8 @@ springdoc:
     authentication:
       enabled: true
       methods:
-      - BASIC
-      - BEARER
+        - BASIC
+#        - BEARER
 #      - OAUTH2
 jwt:
   private:
