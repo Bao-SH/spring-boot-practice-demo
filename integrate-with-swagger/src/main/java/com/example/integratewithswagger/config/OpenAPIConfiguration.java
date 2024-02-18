@@ -6,8 +6,7 @@ import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.info.License;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.security.SecurityRequirement;
-import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.security.*;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.models.GroupedOpenApi;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -64,6 +63,24 @@ public class OpenAPIConfiguration {
                             "Provide the JWT token. JWT token can be obtained from the Login API. For testing, use the credentials <strong>john/password</strong>")
                         .bearerFormat("JWT")))
                 .addSecurityItem(new SecurityRequirement().addList(BEARER_AUTH)))
+            .build();
+    }
+
+    @Bean
+    GroupedOpenApi oauth2GroupedOpenApi() {
+        return GroupedOpenApi.builder().group("OAUTH_2")
+            .pathsToExclude("")
+            .addOpenApiCustomizer(customizer -> customizer.components(
+                new Components()
+                    .addSecuritySchemes("OAUTH_2", new SecurityScheme()
+                        .name("OAUTH_2")
+                        .type(SecurityScheme.Type.OAUTH2)
+                        .flows(new OAuthFlows()
+                            .authorizationCode(new OAuthFlow().authorizationUrl("https://dev-0hkzrvxf7v20p0s8.us.auth0.com/authorize")
+                                .tokenUrl("https://dev-0hkzrvxf7v20p0s8.us.auth0.com/oauth/token")
+                                .scopes(new Scopes().addString("read:api", "read:api")))
+                            )))
+                .addSecurityItem(new SecurityRequirement().addList("OAUTH_2")))
             .build();
     }
 }

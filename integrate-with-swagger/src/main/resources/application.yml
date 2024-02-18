@@ -4,11 +4,39 @@ springdoc:
       enabled: true
       methods:
         - BASIC
-#        - BEARER
+        - BEARER
 #      - OAUTH2
 jwt:
   private:
     key: classpath:app.key
   public:
     key: classpath:app.pub
+okta:
+  oauth2:
+    issuer: https://dev-0hkzrvxf7v20p0s8.us.auth0.com/
+    client-id: BzkaN6NZRBz6AOYU0LQWUPp5baGekt9P
+    client-secret:
+    audience: https://localhost:8080/test
+    redirect-uri: /callback
+
+#spring:
+#  security:
+#    oauth2:
+#      client:
+#        registration:
+#          okta:
+#            client-id: BzkaN6NZRBz6AOYU0LQWUPp5baGekt9P
+#            client-secret: DcV7b_zDErwRw1XrEDd-MCSyuBD-xN3BRWCMtEV32MohWBcDIvAKx-swNqY6am94
+#            authorization-grant-type: authorization_code
+#            client-authentication-method: none
+##            redirect-uri: http://localhost:8080/authorize
+##            scope: read:api
+#        provider:
+#          okta:
+#            authorization-uri: https://dev-0hkzrvxf7v20p0s8.us.auth0.com/authorize
+#            token-uri: https://dev-0hkzrvxf7v20p0s8.us.auth0.com/oauth/token
+#authorization url: https://dev-0hkzrvxf7v20p0s8.us.auth0.com/api/v1/authorizationServers/default
+
+
+#https://dev-0hkzrvxf7v20p0s8.us.auth0.com/api/v1/authorizationServers/default?response_type=token&client_id=BzkaN6NZRBz6AOYU0LQWUPp5baGekt9P&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fswagger-ui%2Foauth2-redirect.html&scope=read%3Aapi&state=V2VkIEphbiAyNCAyMDI0IDIyOjA1OjI5IEdNVCswODAwIChDaGluYSBTdGFuZGFyZCBUaW1lKQ%3D%3D
 
