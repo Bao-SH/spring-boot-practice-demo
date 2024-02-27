@@ -3,15 +3,18 @@ package com.example.integratewithpostgresql.domain;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.Data;
-import lombok.Getter;
+import lombok.*;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 @Entity
 @Table(name = "sales")
 @Getter
-public class Sales {
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+public class Sales implements Serializable {
     @Id
     UUID id;
     String name;
