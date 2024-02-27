@@ -1,8 +1,7 @@
 this module integrates with postgresql as well as redis for client caching.
 to run this locally:
 1 you need start the postgresql:
-```brew service postgresql
-```
+```brew service postgresql```
 in order to get connected to the postgres, you need to run 
 ```psql [your database]```
 for example, in this tutorial, use psql sales
