@@ -46,3 +46,10 @@ If you want to listen to both queue and topic, you can define your CustomMessage
 ```
 and use it in @JmsListener:
 ```@JmsListener(destination = "${solace.spring.secondTopicName}", containerFactory = "myFactory")```
+
+## Expect result
+because tutorial/testqueue subscribes topic-1, so two messages will be received:
+```Payload: Hello World to the tutorial/testqueue```
+```Payload: Hello World to the topic-1```
+and secondqueue subscribes topic-3, so one message will be received:
+```Payload: Hello World to the topic-3```
