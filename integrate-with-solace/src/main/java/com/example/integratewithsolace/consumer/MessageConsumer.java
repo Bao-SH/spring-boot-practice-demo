@@ -12,7 +12,7 @@ public class MessageConsumer {
 
     @JmsListener(destination = "${solace.spring.queueName}")
     public void onReceive(Message<?> msg) {
-        log.info("------------------------Receiving message-------------------");
+        log.info("------------------------Receiving message from queue-------------------");
         MessageHeaders headers = msg.getHeaders();
         log.info("Headers: " + headers);
         Object payload = msg.getPayload();

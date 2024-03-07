@@ -17,11 +17,19 @@ public class MessageProducer implements CommandLineRunner {
     @Value("${solace.spring.queueName}")
     private String queueName;
 
+    @Value("${solace.spring.topicName}")
+    private String topicName;
+
     @Override
     public void run(String... args) {
-        log.info("---------------Sending message-------------------");
-        String msg = "Hello World";
+        log.info("---------------Sending message to queue-------------------");
+        String msg = "Hello World to the queue";
         jmsTemplate.convertAndSend(queueName, msg);
+        log.info("---------------Message sent----------------------");
+        log.info("---------------Sending message to topic-------------------");
+        String msg2 = "Hello World to the topic";
+        jmsTemplate.setPubSubDomain(true);
+        jmsTemplate.convertAndSend(topicName, msg2);
         log.info("---------------Message sent----------------------");
     }
 }
