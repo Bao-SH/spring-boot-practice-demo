@@ -7,6 +7,19 @@ run the source module and this module.
 看solace starter的readme
 https://github.com/SolaceProducts/solace-spring-cloud/tree/master/solace-spring-cloud-starters/solace-spring-cloud-stream-starter
 
+重点就是
+
+```
+The Solace implementation of the Spring Cloud Stream Binder maps the following concepts from Spring to Solace:
+Destinations to topics/subscriptions
+Producer bindings always sends messages to topics
+Consumer groups to durable queues
+A consumer group’s queue is subscribed to its destination subscription (default)
+Consumer bindings always receives messages from queues
+Anonymous consumer groups to temporary queues (When no group is specified; used for SCS Publish-Subscribe Model)
+```
+
+
 ## source config
 ```yaml
 spring:
@@ -68,3 +81,9 @@ spring:
 server:
   port: 8081
 ```
+## whole process
+根据刚刚starter的重点，整个流程就是
+1. source module发消息到topic: sensor/temperature/fahrenheit
+2. process module将topic: sensor/temperature/fahrenheit订阅到queue：TEMPS.Q中
+3. process module收到queue：TEMPS.Q的消息，进行处理
+4. process module将消息发送到topic: sensor/temperature/celsius中
