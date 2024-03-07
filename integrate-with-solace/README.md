@@ -49,7 +49,35 @@ and use it in @JmsListener:
 
 ## Expect result
 because tutorial/testqueue subscribes topic-1, so two messages will be received:
+
 ```Payload: Hello World to the tutorial/testqueue```
+
 ```Payload: Hello World to the topic-1```
+
 and secondqueue subscribes topic-3, so one message will be received:
+
 ```Payload: Hello World to the topic-3```
+
+## Related tutorial links:
+### spring tutorials
+https://tutorials.solace.dev/spring
+
+https://tutorials.solace.dev/spring/spring-boot-autoconfigure/
+
+### jms tutorials
+
+https://tutorials.solace.dev/jms?_gl=1*1fej1db*_ga*MTc3MzgxMzI0My4xNzA5NjA4MjMw*_ga_XZ3NWMM83E*MTcwOTYyMzI4OS4yLjEuMTcwOTYzMjAyMy4wLjAuMA..
+
+### 怎么样从topic to queue mapping and jms
+
+https://tutorials.solace.dev/jms/topic-to-queue-mapping/
+
+JMS做不到，要么可以用management console，要么可以用java api开启一个session，然后再关闭这个session
+
+### if you can do something in different languages or apis
+
+https://docs.solace.com/API/API-Developer-Guide/Adding-Topic-Subscriptio.htm#Add-Subs-DTEs
+
+### spring guide of jms
+
+https://spring.io/guides/gs/messaging-jms
