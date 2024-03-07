@@ -20,16 +20,34 @@ public class MessageProducer implements CommandLineRunner {
     @Value("${solace.spring.topicName}")
     private String topicName;
 
+    @Value("${solace.spring.secondTopicName}")
+    private String secondTopicName;
+
     @Override
     public void run(String... args) {
-        log.info("---------------Sending message to queue-------------------");
-        String msg = "Hello World to the queue";
-        jmsTemplate.convertAndSend(queueName, msg);
-        log.info("---------------Message sent----------------------");
-        log.info("---------------Sending message to topic-------------------");
-        String msg2 = "Hello World to the topic";
+        infoSendingMessage(queueName);
+        jmsTemplate.convertAndSend(queueName, getMsg(queueName));
+        logMessageSent();
+
         jmsTemplate.setPubSubDomain(true);
-        jmsTemplate.convertAndSend(topicName, msg2);
+        infoSendingMessage(topicName);
+        jmsTemplate.convertAndSend(topicName, getMsg(topicName));
+        logMessageSent();
+
+        infoSendingMessage(secondTopicName);
+        jmsTemplate.convertAndSend(secondTopicName, getMsg(secondTopicName));
+        logMessageSent();
+    }
+
+    private static String getMsg(String destinationName) {
+        return "Hello World to the " + destinationName;
+    }
+
+    private void infoSendingMessage(String destionationName) {
+        log.info("---------------Sending message to " + destionationName + "-------------------");
+    }
+
+    private static void logMessageSent() {
         log.info("---------------Message sent----------------------");
     }
 }

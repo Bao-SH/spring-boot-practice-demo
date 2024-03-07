@@ -19,4 +19,14 @@ public class MessageConsumer {
         log.info("Payload: " + payload);
         log.info("-----------------------Finished--------------------------");
     }
+
+    @JmsListener(destination = "${solace.spring.secondQueueName}")
+    public void onReceiveSecond(Message<?> msg) {
+        log.info("------------------------Receiving message from second queue-------------------");
+        MessageHeaders headers = msg.getHeaders();
+        log.info("Headers: " + headers);
+        Object payload = msg.getPayload();
+        log.info("Payload: " + payload);
+        log.info("-----------------------Finished--------------------------");
+    }
 }
