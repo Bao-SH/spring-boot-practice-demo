@@ -1,4 +1,4 @@
-package com.example.integratewithsolace.consumer;
+package com.example.solacemessageconsumer.consumer;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jms.annotation.JmsListener;
@@ -20,15 +20,15 @@ public class MessageConsumer {
         log.info("-----------------------Finished--------------------------");
     }
 
-//    @JmsListener(destination = "${solace.spring.secondTopicName}", containerFactory = "myFactory")
-//    public void onReceiveSecond(Message<?> msg) {
-//        log.info("------------------------Receiving message from second queue-------------------");
-//        MessageHeaders headers = msg.getHeaders();
-//        log.info("Headers: " + headers);
-//        Object payload = msg.getPayload();
-//        log.info("Payload: " + payload);
-//        log.info("-----------------------Finished--------------------------");
-//    }
+    @JmsListener(destination = "${solace.spring.topicName}", containerFactory = "myFactory")
+    public void onReceiveSecond(Message<?> msg) {
+        log.info("------------------------Receiving message from topic-------------------");
+        MessageHeaders headers = msg.getHeaders();
+        log.info("Headers: " + headers);
+        Object payload = msg.getPayload();
+        log.info("Payload: " + payload);
+        log.info("-----------------------Finished--------------------------");
+    }
 
 
 }

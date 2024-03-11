@@ -1,11 +1,14 @@
-package com.example.integratewithsolace.producer;
+package com.example.solacemessageprovider;
 
+import jakarta.jms.TextMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Component;
+
+import static com.solacesystems.jms.SupportedProperty.JMSX_GROUP_ID;
 
 @Component
 @RequiredArgsConstructor
@@ -25,18 +28,40 @@ public class MessageProducer implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        infoSendingMessage(queueName);
-        jmsTemplate.convertAndSend(queueName, getMsg(queueName));
-        logMessageSent();
+//        sendToQueueName(queueName);
+//
+//        sendToPartitionedQueueName(queueName, "Group-0");
+//        sendToPartitionedQueueName(queueName, "Group-1");
+//        sendToPartitionedQueueName(queueName, "Group-2");
 
+        sendToTopicName(topicName);
+
+//        sendToTopicName(secondTopicName);
+
+    }
+
+    private void sendToTopicName(String topicName) {
         jmsTemplate.setPubSubDomain(true);
         infoSendingMessage(topicName);
         jmsTemplate.convertAndSend(topicName, getMsg(topicName));
         logMessageSent();
+    }
 
-//        infoSendingMessage(secondTopicName);
-//        jmsTemplate.convertAndSend(secondTopicName, getMsg(secondTopicName));
-//        logMessageSent();
+    private void sendToPartitionedQueueName(String queueName, String partitionKey) {
+        infoSendingMessage(queueName);
+        jmsTemplate.send(queueName, session ->
+        {
+            TextMessage textMessage = session.createTextMessage("Hello world to the partitioned queue: " + partitionKey);
+            textMessage.setStringProperty(JMSX_GROUP_ID, partitionKey);
+            return textMessage;
+        });
+        logMessageSent();
+    }
+
+    private void sendToQueueName(String queueName) {
+        infoSendingMessage(queueName);
+        jmsTemplate.convertAndSend(queueName, getMsg(queueName));
+        logMessageSent();
     }
 
     private static String getMsg(String destinationName) {
