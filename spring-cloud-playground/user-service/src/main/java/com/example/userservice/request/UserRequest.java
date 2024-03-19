@@ -1,24 +1,13 @@
-package com.example.userservice.dto;
+package com.example.userservice.request;
 
 
 import lombok.Builder;
-import lombok.Data;
-
-import java.util.UUID;
 
 @Builder
-public class User {
-    private UUID id;
+public class UserRequest {
     private String name;
     private String email;
 
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;

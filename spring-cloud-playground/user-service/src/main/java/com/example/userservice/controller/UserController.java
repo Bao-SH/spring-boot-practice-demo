@@ -1,15 +1,12 @@
 package com.example.userservice.controller;
 
 
-import com.example.userservice.dto.User;
 import com.example.userservice.entity.UserEntity;
 import com.example.userservice.mapper.UserMapper;
 import com.example.userservice.repository.UserRepository;
+import com.example.userservice.request.UserRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -22,8 +19,13 @@ public class UserController {
     private final UserRepository userRepository;
 
     @GetMapping("/{id}")
-    public User getUser(@PathVariable UUID id) {
+    public UserEntity getUser(@PathVariable UUID id) {
         Optional<UserEntity> userEntity = userRepository.findById(id);
-        return userEntity.map(UserMapper.INSTANCE::toUser).orElse(null);
+        return userEntity.orElse(null);
+    }
+
+    @PostMapping()
+    public UUID createUser(@RequestBody UserRequest userRequest) {
+        return userRepository.save(UserMapper.INSTANCE.toEntity(userRequest)).getId();
     }
 }
