@@ -1,0 +1,51 @@
+spring:
+  kafka:
+    topic: test-topic
+    bootstrap-servers: http://localhost:9092
+    consumer:
+      group-id: myGroup
+      enable-auto-commit: true
+      auto-commit-interval: 100ms
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      auto-offset-reset: earliest
+    producer:
+      retries: 3
+      batch-size: 16384
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+  application:
+    name: solace-spring-cloud-test
+  cloud:
+    function:
+      definition: myFunction
+    stream:
+      binders:
+        #This section of the configuration tells the solace binder how to connect to the solace event broker/mesh
+        solace-broker:
+          type: solace
+          environment:
+            solace:
+              java:
+                host: test
+                msgVpn: test
+                clientUsername: test
+                clientPassword: test
+                connectRetries: 3
+                connectRetriesPerHost: 0
+                reconnectRetries: 3
+      bindings:
+        #The bindings section is used to define your input and output channels.
+        myFunction-in-0:
+          destination: APRIL.9.Q
+          #The presence of "group" tells the binder to follow the "consumer group" pattern; if not present the "publish-subscribe" pattern will be used.
+          group: 17.TEGROUP
+#        myFunction-out-0:
+#          destination: send/to/topic
+      solace:
+        #The solace bindings section allows for solace specific configurations to be applied to a channel. A common example is adding topic subscriptions to a queue as shown below.
+        bindings:
+          myFunction-in-0:
+            consumer:
+              queueAdditionalSubscriptions: tsttopic
+
